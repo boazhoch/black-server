@@ -20,7 +20,7 @@ const tcpFactory: tcpFactoryFn = function(SC: typeof net.Socket) {
             resolve('Successful connection');
           });
         } catch (e) {
-          console.log(e);
+          reject(e);
         }
 
         client.on('data', (data) => {

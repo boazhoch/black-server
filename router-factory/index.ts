@@ -72,7 +72,7 @@ const routeFactory: routeFactoryFn = function routerFactory(
               })
               .catch((err) => {
                 next(err);
-                reject(err);
+                // reject(err);
               });
           }
         },

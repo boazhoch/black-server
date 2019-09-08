@@ -1,6 +1,4 @@
 import express, { Request, Response } from 'express';
-import apiRoutes from './routes';
-import authMiddleware from './middleware/auth-middleware';
 import net from 'net';
 import session from 'express-session';
 import passport from 'passport';
@@ -9,13 +7,15 @@ import CONFIG, { conf } from './config';
 import routerFactory, { createRouteT } from './router-factory';
 import tcpFactory from './tcp-connection-factory';
 import reqResStreamer from './request-resposne-streamer';
-import { logErrors, errorHandler } from './middleware/error-handler';
+import { logErrors } from './middleware/error-handler';
 import USERS from './config/users';
 import auth from './auth';
 import paramsExtractor from './utils';
+import authMiddleware from './middleware/auth-middleware';
 import PolicyEngine from './policy-engine';
 import policy from './middleware/policy';
 import blackList from './config/blacklist';
+import apiRoutes from './routes';
 
 const app = express();
 const router = express.Router();
@@ -58,16 +58,18 @@ function init(
     },
   );
 
+  apiRoutes(createRoute);
+
   // app api routes.
   app.use(
     '/api',
     authMiddleware,
     policy(new PolicyEngine(blackList), paramsExtractor),
-    apiRoutes(createRoute, router),
+    router,
   );
 
   // app log errors and error handler config.
-  app.use(logErrors, errorHandler);
+  app.use(logErrors);
 
   // app init.
   app.listen(CONFIG.PORT, () => {

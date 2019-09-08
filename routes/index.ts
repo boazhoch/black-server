@@ -1,4 +1,3 @@
-import { Router } from 'express';
 import { createRouteT } from '../router-factory';
 
 // check if type is Error.
@@ -7,13 +6,7 @@ function isError(res: Error): res is Error {
 }
 
 // Api routes, return the router itself.
-export default (createRoute: createRouteT, router: Router) => {
-  // Handle error from promise, throw the error to express
-  // global error middleware will catch it and handle the error.
-  function handleError(err: Error) {
-    throw err;
-  }
-
+export default (createRoute: createRouteT) => {
   // Possibility the data will resolved with error -> check's if the data is error.
   function handleResponse(res: string | Error) {
     if (isError(res as Error)) {
@@ -23,17 +16,15 @@ export default (createRoute: createRouteT, router: Router) => {
   }
 
   // Api routes.
-  createRoute('get', '/get/:host?/:port?/:path?', 'reqResStreamer')
-    .then(handleResponse)
-    .catch(handleError);
+  createRoute('get', '/get/:host?/:port?/:path?', 'reqResStreamer').then(
+    handleResponse,
+  );
 
-  createRoute('post', '/post/:host?/:port?/:path?', 'reqResStreamer')
-    .then(handleResponse)
-    .catch(handleError);
+  createRoute('post', '/post/:host?/:port?/:path?', 'reqResStreamer').then(
+    handleResponse,
+  );
 
-  createRoute('get', '/connect/:host?/:port?/', 'tcpConnect')
-    .then(handleResponse)
-    .catch(handleError);
-
-  return router;
+  createRoute('get', '/connect/:host?/:port?/', 'tcpConnect').then(
+    handleResponse,
+  );
 };

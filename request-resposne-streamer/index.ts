@@ -13,7 +13,7 @@ const reqResStreamer: reqResStreamerFn = function reqResStreamer(
   paramsExtractor: paramsExtractorT,
   res: Response,
 ) {
-  return new Promise((resolve, reject) => {
+  return new Promise((_resolve, reject) => {
     const options = {
       headers: paramsExtractor.headers,
       url: `${paramsExtractor.host}:${paramsExtractor.port}/${paramsExtractor.path}`,
@@ -22,10 +22,9 @@ const reqResStreamer: reqResStreamerFn = function reqResStreamer(
     request(options)
       .on('response', (response) => {
         console.log(response);
-        resolve('responded');
+        // resolve('responded');
       })
       .on('error', function(err) {
-        console.log(err);
         reject(err);
       })
       .pipe(res);
