@@ -10,7 +10,7 @@
       "name": "Launch Program",
       // "program": "${workspaceFolder}/index.js",
       "address": "localhost",
-      "port": 9229,
+      "port": 4443,
       // "outFiles": [
       //   "${workspaceFolder}/**/*.js"
       // ]

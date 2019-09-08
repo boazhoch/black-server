@@ -8,6 +8,7 @@ type reqResStreamerFn = (
   res: Response,
 ) => Promise<string | Error>;
 
+// Streams request and response
 const reqResStreamer: reqResStreamerFn = function reqResStreamer(
   paramsExtractor: paramsExtractorT,
   res: Response,

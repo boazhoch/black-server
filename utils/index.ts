@@ -3,7 +3,7 @@ import { IncomingHttpHeaders } from 'http';
 
 type paramsExtractorT = {
   host: string;
-  port: number;
+  port: string;
   headers?: IncomingHttpHeaders;
   path?: string;
   ip: string;

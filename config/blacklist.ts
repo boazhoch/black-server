@@ -2,16 +2,18 @@ type blackList = {
   sourceUser: string;
   sourceIP: string;
   destHostname: string;
-  destPort: number;
+  destPort: string;
   destMethod: string;
 };
+
+// blacklist policy.
 
 const blackList = [
   {
     sourceUser: 'admin',
-    sourceIP: '127.0.0.1',
-    destHostname: 'localhost',
-    destPort: 5501,
+    sourceIP: '::ffff:127.0.0.1',
+    destHostname: '127.0.0.1',
+    destPort: '5000',
     destMethod: 'GET',
   },
 ];

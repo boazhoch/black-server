@@ -16,7 +16,7 @@ const tcpFactory: tcpFactoryFn = function(SC: typeof net.Socket) {
         const { port, host } = paramExtractor;
 
         try {
-          client.connect(port, host, () => {
+          client.connect(parseInt(port), host, () => {
             resolve('Successful connection');
           });
         } catch (e) {

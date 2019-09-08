@@ -4,7 +4,7 @@
   "description": "Black server",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --inspect -- index.ts",
+    "start": "ts-node-dev --inspect=0.0.0.0:4443 -- index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

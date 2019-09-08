@@ -27,7 +27,7 @@ const createRoute = routerFactory(
   paramsExtractor,
 );
 
-// Passport config
+// Passport config basic auth
 auth(USERS, passport);
 
 function init(
@@ -36,6 +36,7 @@ function init(
   app: express.Application,
   createRoute: createRouteT,
 ) {
+  // app configs: bodyParser, session, passport
   app.use(
     express.urlencoded({ extended: false }),
     session({
@@ -46,6 +47,8 @@ function init(
     passport.initialize(),
     passport.session(),
   );
+
+  // app simple login route.
   app.get(
     '/login',
     passport.authenticate('basic'),
@@ -54,23 +57,32 @@ function init(
       res.sendStatus(200);
     },
   );
+
+  // app api routes.
   app.use(
     '/api',
     authMiddleware,
     policy(new PolicyEngine(blackList), paramsExtractor),
     apiRoutes(createRoute, router),
   );
+
+  // app log errors and error handler config.
   app.use(logErrors, errorHandler);
+
+  // app init.
   app.listen(CONFIG.PORT, () => {
     console.log(`Listen on port ${CONFIG.PORT}`);
   });
 }
 
+/** A demo server that echo's into the tcp connection. **/
 const server = net.createServer(function(socket) {
   socket.write('Echo server\r\n');
   socket.pipe(socket);
 });
 
 server.listen(1337, '127.0.0.1');
+
+/** **************  *************************************/
 
 init(CONFIG, router, app, createRoute);

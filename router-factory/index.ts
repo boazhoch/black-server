@@ -17,17 +17,25 @@ type routeFactoryFn = (
   paramsExtractor: (req: Request) => paramsExtractorT,
 ) => createRouteT;
 
+/**
+ * @param router
+ * @param reqResStreamer
+ * @param tcpConnect
+ * @param paramsExtractor
+ */
 const routeFactory: routeFactoryFn = function routerFactory(
   router: Router,
   reqResStreamer: reqResStreamerFn,
   tcpConnect: tcpCreationFn,
   paramsExtractor: (req: Request) => paramsExtractorT,
 ): createRouteT {
+  // Possible route types.
   const fns = {
     reqResStreamer,
     tcpConnect,
   };
 
+  // getter of route types.
   function getFnByType(type: 'reqResStreamer' | 'tcpConnect') {
     const fn = fns[type];
     return fn || null;
@@ -50,6 +58,8 @@ const routeFactory: routeFactoryFn = function routerFactory(
 
       console.log(`Register route at ${routePath}`);
 
+      // register the route using the 'get' | 'post' methods with a given routePath,
+      // also if route type provided will execute and promise the result back.
       matcher(
         routePath,
         (req: Request, response: Response, next: NextFunction) => {

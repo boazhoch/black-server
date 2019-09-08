@@ -12,4 +12,4 @@ COPY . /app
 
 CMD [ "npm", "start" ]
 
-EXPOSE 4444
+EXPOSE 4444 4443 

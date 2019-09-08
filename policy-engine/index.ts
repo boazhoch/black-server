@@ -4,13 +4,13 @@ import { blackList } from '../config/blacklist';
 
 type allowedParams = paramsExtractorT & {
   user?: Express.User;
-  sourceIP: string;
 };
 
 interface PolicyEngineI {
   isAllowed(params: allowedParams): boolean;
 }
 
+// Singleton policy engine with a checking method for incoming requests.
 class PolicyEngine implements PolicyEngineI {
   private blackList: blackList[];
   constructor(blackList: blackList[] = []) {
@@ -22,6 +22,7 @@ class PolicyEngine implements PolicyEngineI {
       if (
         params.user &&
         (params.user as user).username === item.sourceUser &&
+        params.ip === item.sourceIP &&
         params.method === item.destMethod &&
         params.host === item.destHostname &&
         params.port === item.destPort
